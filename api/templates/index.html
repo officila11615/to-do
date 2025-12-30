@@ -1,0 +1,62 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Task Reminder App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <header>
+        <h1>📋 Todo list</h1>
+    </header>
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <div class="flash">{{ message }}</div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <div style="text-align: center; margin-bottom: 2rem; width: 100%; max-width: 800px;">
+        <button id="toggleFormBtn"
+            style="width: auto; padding: 12px 30px; background: linear-gradient(135deg, #f72585 0%, #7209b7 100%);">
+            ➕ Add New Task
+        </button>
+    </div>
+
+    <div id="formContainer" class="form-container">
+        <form method="POST" class="task-form">
+            <h3>start the task</h3>
+            <input type="text" name="title" placeholder="e.g. Finish Python project" required>
+            <textarea name="description" placeholder="Details / notes (optional)" rows="3"></textarea>
+            <input type="date" name="due_date" required>
+            <button type="submit">🚀 Create Task</button>
+        </form>
+    </div>
+
+    <h3>My Tasks ({{ tasks|length }})</h3>
+    <div class="task-grid">
+        {% for task in tasks %}
+        <div class="task {% if task['completed'] %}completed{% endif %}">
+            <h4>{{ task['title'] }}</h4>
+            {% if task['description'] %}<p>{{ task['description'] }}</p>{% endif %}
+            <p><strong>Due:</strong> {{ task['due_date'] }}</p>
+            <div class="task-actions">
+                {% if not task['completed'] %}
+                <a href="/complete/{{ task['id'] }}"><button class="btn-complete">✅</button></a>
+                {% endif %}
+                <a href="/delete/{{ task['id'] }}"><button class="btn-delete">🗑️</button></a>
+            </div>
+        </div>
+        {% else %}
+        <p style="text-align:center; color:rgba(255,255,255,0.7); width:100%;">No tasks yet. Add one above! 🎯</p>
+        {% endfor %}
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+
+</html>

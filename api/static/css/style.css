@@ -1,0 +1,462 @@
+/* static/css/style.css */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    cursor: none !important;
+    /* Hide system cursor */
+}
+
+/* Custom Cursor Dot (Center Diamond) */
+.cursor-dot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 8px;
+    height: 8px;
+    background: #4cc9f0;
+    border-radius: 0;
+    /* Square/Diamond */
+    transform: translate(-50%, -50%) rotate(45deg);
+    pointer-events: none;
+    z-index: 10000;
+    box-shadow: 0 0 10px #4cc9f0;
+    transition: width 0.3s, height 0.3s, background 0.3s, transform 0.3s;
+}
+
+/* Custom Cursor Follower (Rotating Square) */
+.cursor-glow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 35px;
+    height: 35px;
+    background: transparent;
+    border: 1px solid rgba(247, 37, 133, 0.6);
+    /* Neon Pink Border */
+    border-radius: 4px;
+    pointer-events: none;
+    transform: translate(-50%, -50%) rotate(45deg);
+    z-index: 9999;
+    box-shadow: 0 0 15px rgba(247, 37, 133, 0.2);
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+        height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+        border-color 0.3s,
+        background 0.3s;
+    animation: cursorSpin 4s linear infinite;
+}
+
+@keyframes cursorSpin {
+    from {
+        transform: translate(-50%, -50%) rotate(45deg);
+    }
+
+    to {
+        transform: translate(-50%, -50%) rotate(405deg);
+    }
+}
+
+/* Hover States */
+.cursor-dot.hovering {
+    background: #fff;
+    transform: translate(-50%, -50%) rotate(225deg) scale(1.5);
+    box-shadow: 0 0 20px #fff;
+}
+
+.cursor-glow.hovering {
+    width: 60px;
+    height: 60px;
+    border-color: #4cc9f0;
+    /* Switch to Blue on hover */
+    background: rgba(76, 201, 240, 0.1);
+    animation-duration: 1.5s;
+    /* Spin faster on hover */
+}
+
+body {
+    font-family: 'Outfit', sans-serif;
+    min-height: 100vh;
+    padding: 2rem;
+    color: #334155;
+    /* Space / Comet UI Background */
+    background: linear-gradient(125deg, #000000, #0f172a, #1e1b4b, #312e81);
+    background-size: 400% 400%;
+    animation: gradientBG 20s ease infinite;
+    background-attachment: fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+header {
+    text-align: center;
+    margin-bottom: 2rem;
+    width: 100%;
+    max-width: 800px;
+}
+
+h1 {
+    color: white;
+    font-size: 3rem;
+    font-weight: 600;
+    text-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 0.5rem;
+}
+
+h3 {
+    color: #475569;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+}
+
+/* Collapsible Form Container */
+.form-container {
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+    overflow: hidden;
+    transition:
+        max-height 4s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 4s ease,
+        transform 4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    /* Bouncy slide effect */
+    width: 100%;
+    max-width: 800px;
+}
+
+.form-container.active {
+    max-height: 800px;
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    margin-bottom: 3rem;
+    transition:
+        max-height 4s ease,
+        opacity 4s ease,
+        transform 4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.task-form {
+    /* Nebula Gradient for Form */
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+
+    /* Removed conflicting slideIn animation on load, now controlled by toggle */
+
+    padding: 2.5rem;
+    border-radius: 24px;
+    width: 100%;
+    max-width: 800px;
+    transition: transform 1.5s ease;
+}
+
+/* Removed slideIn keyframes as they are no longer needed for form load */
+
+.task-form:hover {
+    transform: translateY(-5px) scale(1.01);
+    box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.45);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.task-form h3 {
+    background: linear-gradient(to right, #fff, #4cc9f0);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-size: 1.1rem;
+    font-weight: 800;
+    filter: drop-shadow(0 2px 4px rgba(76, 201, 240, 0.3));
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 16px;
+    margin: 8px 0 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 1rem;
+    color: white;
+    transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(5px);
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+input:focus,
+textarea:focus {
+    outline: none;
+    border-color: #4cc9f0;
+    background: rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 20px rgba(76, 201, 240, 0.2), inset 0 0 10px rgba(76, 201, 240, 0.1);
+    transform: translateY(-2px);
+}
+
+button {
+    background: linear-gradient(135deg, #4cc9f0 0%, #4361ee 100%);
+    color: white;
+    padding: 16px 32px;
+    border: none;
+    border-radius: 50px;
+    /* Pill shape */
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 700;
+    transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 100%;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(67, 97, 238, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+button:hover {
+    background: linear-gradient(135deg, #48cae4 0%, #3f37c9 100%);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(76, 201, 240, 0.6);
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+/* List Section */
+.task-list-container {
+    width: 100%;
+    max-width: 800px;
+}
+
+.task-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 1200px;
+    justify-content: flex-start;
+    /* Align to left */
+}
+
+.task-list-container h3 {
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 1.5rem;
+    width: 100%;
+}
+
+.task {
+    /* Comet / Space Card Gradient */
+    background: linear-gradient(45deg, #2d1b4e, #1a1a2e, #16213e);
+    background-size: 200% 200%;
+    animation: gradientBG 10s ease infinite;
+
+    padding: 2rem;
+    margin: 0;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+    border-left: 4px solid #4cc9f0;
+
+    flex: 1 1 350px;
+    min-width: 300px;
+    min-height: 200px;
+    /* Give it some height */
+
+    display: flex;
+    flex-direction: column;
+    /* Stack content inside card */
+    align-items: flex-start;
+    justify-content: space-between;
+    /* Push actions to bottom */
+    gap: 1rem;
+
+    transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 1.5s ease;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.task:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.6);
+    background: linear-gradient(45deg, #321f55, #1f1f3a, #1a274a);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.task h4 {
+    font-size: 1.5rem;
+    color: white;
+    flex: 1 1 100%;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.task p {
+    color: rgba(255, 255, 255, 0.8);
+    flex: 1 1 100%;
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+    font-size: 1rem;
+    font-weight: 300;
+}
+
+.task strong {
+    color: #4cc9f0;
+    /* Neon Cyan */
+    font-weight: 600;
+    text-shadow: 0 0 10px rgba(76, 201, 240, 0.4);
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+}
+
+.task-actions {
+    display: flex;
+    gap: 0.8rem;
+    margin-top: auto;
+    /* Push to bottom */
+    width: 100%;
+    justify-content: flex-end;
+    /* Align buttons to right */
+}
+
+/* Specific smaller styles for buttons inside tasks */
+.task-actions button {
+    width: auto;
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    border-radius: 12px;
+    letter-spacing: 0.05em;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.task-actions button:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+.btn-complete {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-complete:hover {
+    background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
+}
+
+.btn-delete {
+    background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-delete:hover {
+    background: linear-gradient(135deg, #f87171 0%, #ef4444 100%);
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.5);
+}
+
+.task.completed {
+    opacity: 0.6;
+    border-left-color: #10b981;
+    background: #f1f5f9;
+}
+
+.task.completed h4 {
+    text-decoration: line-through;
+    color: #94a3b8;
+}
+
+.flash {
+    background: #ecfdf5;
+    color: #047857;
+    padding: 1rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    text-align: center;
+    border: 1px solid #a7f3d0;
+    width: 100%;
+    max-width: 800px;
+    animation: fadeIn 0.5s;
+}
+
+.due-soon {
+    border-left-color: #f59e0b !important;
+}
+
+.overdue {
+    border-left-color: #ef4444 !important;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@media (min-width: 640px) {
+    .task {
+        padding: 2rem;
+    }
+
+    .task h4 {
+        flex: 1;
+        margin-bottom: 0;
+    }
+
+    .task p {
+        flex: 1 1 100%;
+    }
+
+    /* Force description to new line */
+    .task-actions {
+        width: auto;
+        margin-top: 0;
+        margin-left: auto;
+    }
+}
