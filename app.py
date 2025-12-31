@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 import sqlite3
 from datetime import datetime, date
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='api/templates', static_folder='api/templates/static')
 app.secret_key = 'task_reminder_secret'
 
 def get_db_connection():
